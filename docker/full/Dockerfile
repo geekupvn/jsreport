@@ -27,19 +27,21 @@ RUN adduser --disabled-password --gecos "" jsreport && \
     apt-get update && \
     apt-get install -y --no-install-recommends nodejs && \
     npm i -g npm && \
-    # chrome
-    apt-get install -y libgconf-2-4 && \
+    # # chrome
+    apt-get install -y libgconf-2-4 software-properties-common && \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
-    apt-get install software-properties-common && \
-    add-apt-repository -y ppa:kokoye2007/ppa && \
     apt-get update && \
     # install latest chrome just to get package deps installed
-    apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-myanmar-fonts-unicode --no-install-recommends && \
+    apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst --no-install-recommends && \
     # then replace that chrome with specific chrome version, see https://github.com/webnicer/chrome-downloads for available versions
     wget https://github.com/webnicer/chrome-downloads/raw/master/x64.deb/google-chrome-stable_76.0.3809.132-1_amd64.deb && \
     dpkg -i ./google-chrome*.deb && \
     rm google-chrome*.deb && \
+    # install Burmese font
+    add-apt-repository ppa:kokoye2007/ppa && \
+    apt-get update && \
+    apt-get install -y ttf-myanmar-fonts-myanmar3 ttf-myanmar-fonts-myanmarcensus ttf-myanmar-fonts-pyidaungsu && \
     # phantomjs
     curl -Lo phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2 && \
     tar jxvf phantomjs.tar.bz2 && \
